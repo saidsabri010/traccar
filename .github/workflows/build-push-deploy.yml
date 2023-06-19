@@ -49,6 +49,7 @@ jobs:
             _ACR_IMAGE_TAGS+=",$AZURE_CONTAINER_REGISTRY:$_VERSION"
             _ACR_IMAGE_TAGS+=",$AZURE_CONTAINER_REGISTRY:$_MAJOR_VERSION"
           fi
+          _ACR_IMAGE_TAGS=$(echo $_ACR_IMAGE_TAGS | tr '[:upper:]' '[:lower:]') # Lowercase the tags
           echo "ACR_IMAGE_TAGS=$_ACR_IMAGE_TAGS" >> $GITHUB_ENV
       - name: Set environment ACR_IMAGE_PLATFORMS
         run: |
