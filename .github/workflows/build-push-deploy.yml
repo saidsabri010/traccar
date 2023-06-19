@@ -28,10 +28,9 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Set up Azure CLI
-        uses: azure/setup-azure-cli@v1
+     
       - name: Login to Azure Container Registry
-        uses: azure/login@v1
+        uses: azure/docker-login@v1
         with:
             login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
             username: ${{ secrets.ACR_USERNAME }}
