@@ -60,6 +60,7 @@ jobs:
       - name: Build and push
         if: env.ACR_IMAGE_TAGS != ''
         run: |
-          DOCKER_IMAGE_TAG="${{ env.AZURE_CONTAINER_REGISTRY }}:${{ matrix.os }}"
+          DOCKER_IMAGE_TAG="${{ env.AZURE_CONTAINER_REGISTRY }}/${{ matrix.os }}"
+          DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG,,}" # Convert to lowercase
           docker build -t $DOCKER_IMAGE_TAG .
           docker push $DOCKER_IMAGE_TAG
