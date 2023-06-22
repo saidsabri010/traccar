@@ -1,4 +1,3 @@
----
 name: Build and push and deploy docker images
 
 env:
@@ -9,10 +8,6 @@ on:
     branches:
       - Dev
       - v[0-9]+.[0-9]+
-
-defaults:
-  run:
-    shell: bash
 
 jobs:
   docker-build-push:
@@ -29,9 +24,9 @@ jobs:
       - name: Login to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-            login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
-            username: ${{ secrets.ACR_USERNAME }}
-            password: ${{ secrets.ACR_PASSWORD }}
+          login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Set environment ACR_IMAGE_TAGS
         if: github.ref != 'refs/heads/master'
@@ -57,10 +52,30 @@ jobs:
             _ACR_IMAGE_PLATFORMS+=",linux/arm/v7,linux/arm64"
           fi
           echo "ACR_IMAGE_PLATFORMS=$_ACR_IMAGE_PLATFORMS" >> $GITHUB_ENV
-      - name: Build and push
-        if: env.ACR_IMAGE_TAGS != ''
+
+      - name: Install dependencies
         run: |
-          DOCKER_IMAGE_TAG="${{ env.AZURE_CONTAINER_REGISTRY }}/${{ matrix.os }}"
-          DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG,,}" # Convert to lowercase
-          docker build . -f Dockerfile.ubuntu $DOCKER_IMAGE_TAG .
-          docker push $DOCKER_IMAGE_TAG
+          apt-get update
+          apt-get install -y unzip wget
+
+      - name: Download and extract Traccar
+        run: |
+          TRACCAR_VERSION=5.8
+          wget -qO /tmp/traccar.zip https://github.com/saidsabri010/traccar/releases/download/v$TRACCAR_VERSION/traccar-other-$TRACCAR_VERSION.zip
+          unzip -qo /tmp/traccar.zip -d /opt/traccar
+
+      - name: Clean up
+        run: apt-get autoremove --yes unzip wget && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+      - name: Set environment variables
+        run: |
+          echo "JAVA_OPTS=-Xms1g -Xmx1g -Djava.net.preferIPv4Stack=true" >> $GITHUB_ENV
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: /opt/traccar
+          file: Dockerfile
+          tags: ${{ env.DOCKERHUB_IMAGE_TAGS }}
+          push: true
+
