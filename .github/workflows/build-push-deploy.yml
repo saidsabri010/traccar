@@ -61,7 +61,7 @@ jobs:
         with:
           file: Dockerfile.${{ matrix.os }}
           tags: ${{ env.ACR_IMAGE_TAGS }}
-          platforms: ${{ env.ACR_IMAGE_PLATFORMS }}
+          platforms: linux
           push: true
 
 
