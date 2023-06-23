@@ -59,7 +59,7 @@ jobs:
         if: env.ACR_IMAGE_TAGS != ''
         uses: docker/build-push-action@v2
         with:
-          file: Dockerfile.${{ matrix.os }}
+          file: Dockerfile.ubuntu
           tags: ${{ env.ACR_IMAGE_TAGS }}
           platforms: linux
           push: true
