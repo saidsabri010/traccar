@@ -51,9 +51,6 @@ jobs:
             _ACR_IMAGE_PLATFORMS+=",linux/arm/v7,linux/arm64"
           fi
           echo "ACR_IMAGE_PLATFORMS=$_ACR_IMAGE_PLATFORMS" >> $GITHUB_ENV
-
-      - name: Build and push
-        run: build-docker-image
           
   build-docker-image:
      name: build and push docker image to ACR
