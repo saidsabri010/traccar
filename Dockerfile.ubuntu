@@ -8,7 +8,7 @@ RUN set -ex && \
     apt-get update && \
     apt-get install -y --no-install-recommends unzip && \
     apt-get install -y --no-install-recommends wget && \
-    wget -qO /tmp/traccar.zip "https://github.com/saidsabri010/traccar/releases/download/v${TRACCAR_VERSION}/traccar-other-${TRACCAR_VERSION}.zip" && \
+    wget -qO /tmp/traccar.zip "https://traccarinstallers.blob.core.windows.net/traccar/traccar-${TRACCAR_VERSION}.zip" && \
     unzip -qo /tmp/traccar.zip -d /opt/traccar && \
     apt-get autoremove -y unzip && \
     apt-get autoremove -y wget && \
@@ -18,5 +18,6 @@ RUN set -ex && \
 ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
 
 CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]
+
 
 
