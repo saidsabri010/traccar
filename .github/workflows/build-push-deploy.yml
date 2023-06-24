@@ -53,23 +53,28 @@ jobs:
           echo "ACR_IMAGE_PLATFORMS=$_ACR_IMAGE_PLATFORMS" >> $GITHUB_ENV
 
       - name: Build and push
-        if: env.ACR_IMAGE_TAGS != ''
-        uses: docker/build-push-action@v2
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }
-        with:
-          file: Dockerfile.${{ matrix.os }}
-          tags: ${{ env.ACR_IMAGE_TAGS }}
-          platforms: linux
-          push: true
+        run: build-docker-image
+          
+  build-docker-image:
+     runs-on: ubuntu-latest
+     steps:
 
+       - uses: docker/build-push-action@v2
+       - uses: azure/docker-login@v1
+         with:
+           login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
+           username: ${{ secrets.ACR_USERNAME }}
+           password: ${{ secrets.ACR_PASSWORD }
+           file: Dockerfile.${{ matrix.os }}
+           tags: ${{ env.ACR_IMAGE_TAGS }}
+           platforms: linux
+           push: true
+           
+           
   build-installer:
 
     runs-on: ubuntu-latest
-
+     
     steps:
       - uses: actions/checkout@v3
         with:
