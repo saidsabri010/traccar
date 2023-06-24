@@ -31,8 +31,8 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          username: "byPv3E56BR8zjpnkIJWU0uQAZSXPS9/Au3vcJSQnSb+ACRD/potP"
+          password: "tekkam"
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
