@@ -109,9 +109,10 @@ jobs:
           wget -q https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6+10/OpenJDK17U-jdk_arm_linux_hotspot_17.0.6_10.tar.gz
           wget -q https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6+10/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.6_10.tar.gz
           ./package.sh ${{ github.event.inputs.version }} linux-64
-      - name: Upload installers
+      - name: Upload installers to Azure Blob Storage
         working-directory: ./setup
         env:
-          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-          S3_SECRET_KEY: ${{ secrets.S3_SECRET_KEY }}
-        run: s3cmd --acl-public put traccar-*.zip s3://traccar/builds/ --host=nyc3.digitaloceanspaces.com --host-bucket=traccar --access_key="$S3_ACCESS_KEY" --secret_key="$S3_SECRET_KEY"
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        run: |
+         az storage blob upload-batch --destination traccar --account-name traccarinstallers --account-key traccarinstallers --source . --pattern "traccar-*.zip"
+
