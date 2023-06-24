@@ -1,7 +1,7 @@
 name: Build and push and deploy docker images
 
 env:
-  AZURE_CONTAINER_REGISTRY: traccarContainerRegistry.azurecr.io
+  AZURE_CONTAINER_REGISTRY: https://traccarContainerRegistry.azurecr.io
 
 on:
   push:
