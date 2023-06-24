@@ -41,16 +41,16 @@ jobs:
           platforms: linux
           push: true
       - name: Deploy to Azure VM
-        uses: azure/ssh-vm-deploy@v1
-        with:
-          host: 51.144.228.156
-          username: said
-          password: ${{ secrets.VM_PASSWORD }}
-          script: |
+        run: |
+          sshpass -p ${{ secrets.VM_PASSWORD }} ssh -o StrictHostKeyChecking=no said@51.144.228.156 << EOF
             docker stop traccar || true
             docker rm traccar || true
             docker pull tekka.azurecr.io/traccar:v1
             docker run -d --name traccar -p 8082:8082 tekka.azurecr.io/traccar:v1
+          EOF
+        env:
+          USERNAME_TO_LOGIN_TO_VM: said
+          IP_ADDRESS_OF_YOUR_AZURE_VM: 51.144.228.156
 
   build-installer:
 
