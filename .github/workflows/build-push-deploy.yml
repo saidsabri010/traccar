@@ -63,7 +63,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.${{ matrix.os }}
-          tags: ${{ env.ACR_IMAGE_TAGS }}
+          tags: AZURE_CONTAINER_REGISTRY/traccar-name:v1
           platforms: linux
           push: true
 
