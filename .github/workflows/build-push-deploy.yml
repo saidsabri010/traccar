@@ -30,7 +30,9 @@ jobs:
           login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-
+      - name: Set environment variables
+        run: |
+          echo "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" >> $GITHUB_ENV
       - name: Set environment ACR_IMAGE_TAGS
         if: github.ref != 'refs/heads/master'
         run: |
