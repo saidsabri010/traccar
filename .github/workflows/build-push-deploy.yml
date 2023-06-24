@@ -63,7 +63,7 @@ jobs:
            login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
            username: ${{ secrets.ACR_USERNAME }}
            password: ${{ secrets.ACR_PASSWORD }}
-           file: Dockerfile.${{ matrix.os }}
+           file: Dockerfile.ubuntu
            tags: ${{ env.ACR_IMAGE_TAGS }}
            platforms: linux
            push: true
