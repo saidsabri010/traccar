@@ -40,6 +40,17 @@ jobs:
           tags: tekka.azurecr.io/traccar:v1
           platforms: linux
           push: true
+      - name: Deploy to Azure VM
+        uses: azure/ssh-vm-deploy@v1
+        with:
+          host: 51.144.228.156
+          username: said
+          password: ${{ secrets.VM_PASSWORD }}
+          script: |
+            docker stop traccar || true
+            docker rm traccar || true
+            docker pull tekka.azurecr.io/traccar:v1
+            docker run -d --name traccar -p 8082:8082 tekka.azurecr.io/traccar:v1
 
   build-installer:
 
