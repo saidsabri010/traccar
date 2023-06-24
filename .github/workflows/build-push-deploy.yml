@@ -26,18 +26,18 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set environment variables
         run: |
-          echo "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" >> $GITHUB_ENV
+          echo "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" >> $GITHUB_ENV      
       - name: Login to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-          login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
+          login-server: tekka.azurecr.io
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.${{ matrix.os }}
-          tags: traccarcontainerregistry.azurecr.io/traccar:${{ github.sha }}
+          tags: tekka.azurecr.io/traccar:${{ github.sha }}
           platforms: linux
           push: true
 
