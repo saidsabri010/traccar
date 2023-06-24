@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.${{ matrix.os }}
-          tags: tekka.azurecr.io/traccar:${{ github.sha }}
+          tags: tekka.azurecr.io/traccar:v1
           platforms: linux
           push: true
 
