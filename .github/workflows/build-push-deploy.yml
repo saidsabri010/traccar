@@ -42,8 +42,8 @@ jobs:
           push: true
       - name: Deploy to Azure VM
         env:
-         SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_KEY}}
-         AZURE_VM_IP: 51.144.228.156
+          SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_KEY}}
+          AZURE_VM_IP: 51.144.228.156
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
@@ -54,7 +54,7 @@ jobs:
             docker rm tekka || true
             docker pull tekka.azurecr.io/traccar:v1
             docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v1
-
+          EOF
   build-installer:
 
     runs-on: ubuntu-latest
