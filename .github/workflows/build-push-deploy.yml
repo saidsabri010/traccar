@@ -40,15 +40,14 @@ jobs:
           tags: tekka.azurecr.io/traccar:v1
           platforms: linux
           push: true
-      - name: Log into Azure Container Registry
-        run: docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
-
-      - name: Pull Docker image from ACR
-        run: docker pull tekka.azurecr.io/traccar:v1
-
-      - name: Deploy image on Azure VM
+      - name: Deploy to Azure VM
         run: |
-          ssh linuxTraccarTestEnv@51.144.228.156 'docker run -d tekka.azurecr.io/traccar:v1'
+          docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+          ssh -i tekka.pub said@dnsino.westeurope.cloudapp.azure.com  
+            docker stop tekka || true
+            docker rm tekka || true
+            docker pull tekka.azurecr.io/traccar:v1
+            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v1
 
   build-installer:
 
