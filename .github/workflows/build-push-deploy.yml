@@ -44,10 +44,10 @@ jobs:
         run: |
           docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
           sshpass -p ${{ secrets.VM_PASSWORD }} ssh -o StrictHostKeyChecking=no said@51.144.228.156 << EOF
-            docker stop traccar || true
-            docker rm traccar || true
+            docker stop tekka || true
+            docker rm tekka || true
             docker pull tekka.azurecr.io/traccar:v1
-            docker run -d --name traccar -p 8082:8082 tekka.azurecr.io/traccar:v1
+            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v1
           EOF
         env:
           USERNAME_TO_LOGIN_TO_VM: said
