@@ -49,9 +49,6 @@ jobs:
             docker pull tekka.azurecr.io/traccar:v1
             docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v1
           EOF
-        env:
-          USERNAME_TO_LOGIN_TO_VM: said
-          IP_ADDRESS_OF_YOUR_AZURE_VM: 51.144.228.156
 
   build-installer:
 
