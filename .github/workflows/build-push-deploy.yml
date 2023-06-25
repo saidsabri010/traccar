@@ -43,7 +43,7 @@ jobs:
       - name: Deploy to Azure VM
         run: |
           docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
-          sshpass -p ${{ secrets.VM_PASSWORD }} ssh -o StrictHostKeyChecking=no said@51.144.228.156 << EOF
+          ssh -i /home/sabri/tekka.pub said@dnsino.westeurope.cloudapp.azure.com
             docker stop tekka || true
             docker rm tekka || true
             docker pull tekka.azurecr.io/traccar:v1
