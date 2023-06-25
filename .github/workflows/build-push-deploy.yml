@@ -49,11 +49,11 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa said@${AZURE_VM_IP} '
-           docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
-           docker stop tekka || true
-           docker rm tekka || true
-           docker pull tekka.azurecr.io/traccar:v1
-           docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v1
+            docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+            docker stop tekka || true
+            docker rm tekka || true
+            docker pull tekka.azurecr.io/traccar:v1
+            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v1
 
   build-installer:
 
