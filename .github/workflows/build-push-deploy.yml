@@ -45,6 +45,7 @@ jobs:
          SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_KEY}}
          AZURE_VM_IP: 51.144.228.156
         run: |
+          mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa said@${AZURE_VM_IP} '
