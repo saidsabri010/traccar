@@ -39,7 +39,7 @@ jobs:
       - name: Build and push
         run: |
           docker buildx create --use
-          docker buildx build --platform windows/amd64 -t tekka.azurecr.io/traccar:v5 .
+          docker buildx build --platform windows/amd64 -t tekka.azurecr.io/traccar:v5 Dockerfile.windows.
           docker buildx stop
 
   deploy:
