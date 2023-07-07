@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/windows/nanoserver:1809
+
+ENV TRACCAR_VERSION 5.8
+
+WORKDIR C:/opt/traccar
+
+RUN powershell -Command " \
+    Invoke-WebRequest -Uri https://github.com/traccar/traccar/releases/download/v$($env:TRACCAR_VERSION)/traccar-other-$($env:TRACCAR_VERSION).zip -OutFile C:/tmp/traccar.zip ; \
+    Expand-Archive -Path C:/tmp/traccar.zip -DestinationPath C:/opt/traccar ; \
+    Remove-Item C:/tmp/traccar.zip \
+    "
+
+ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
+
+CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]
+
