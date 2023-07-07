@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build Java
-    runs-on: windows-latest
+    runs-on: windows
 
     steps:
       - uses: actions/checkout@v3
@@ -23,7 +23,7 @@ jobs:
   docker-build:
     name: Build Docker image
     needs: build
-    runs-on: windows-latest
+    runs-on: windows
 
     steps:
       - name: Checkout
