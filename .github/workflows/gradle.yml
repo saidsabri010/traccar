@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        os: [alpine, debian, ubuntu]
+        os: [windows, ubuntu]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,7 +43,19 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          file: Dockerfile.ubuntu
-          tags: tekka.azurecr.io/traccar:v4
+          file: Dockerfile.windows
+          tags: tekka.azurecr.io/traccar:v5
           platforms: linux
           push: true
+      - name: Deploy to Azure VM
+        env:
+          AZURE_VM_IP: 13.69.28.186
+          VM_USERNAME: saidAzure
+          VM_PASSWORD: ${{ secrets.VM_PASSWORD_WS }}
+        run: |
+          sshpass -p "${VM_PASSWORD_WS}" ssh -o StrictHostKeyChecking=no ${VM_USERNAME}@${AZURE_VM_IP} '
+            docker login tekka.azurecr.io -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+            docker stop tekka || true
+            docker rm tekka || true
+            docker pull tekka.azurecr.io/traccar:v5
+            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v5'
