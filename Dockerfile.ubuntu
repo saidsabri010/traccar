@@ -26,7 +26,7 @@ COPY src ./src
 
 # Build the JAR file
 RUN chmod +x ./gradlew
-RUN ./gradlew assemble
+RUN ./gradlew --no-daemon assemble
 
 ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
 
