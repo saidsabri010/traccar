@@ -78,6 +78,9 @@ jobs:
             traccar-web/package-lock.json
             traccar-web/modern/package-lock.json
             
+      - name: Create /opt/traccar directory
+        run: mkdir -p /opt/traccar     
+        
       - name: Copy JAR file to /opt/traccar
         run: cp target/tracker-server.jar /opt/traccar/
 
