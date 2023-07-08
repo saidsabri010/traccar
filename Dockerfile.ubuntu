@@ -2,22 +2,36 @@ FROM adoptopenjdk:11-jre-hotspot-focal
 
 ENV TRACCAR_VERSION 5.8
 
+# Install build tools and dependencies
+RUN set -ex && \
+    apt-get update && \
+    apt-get install --yes --no-install-recommends unzip wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /opt/traccar
 
-RUN set -ex && \
-    apt-get update &&\
-    TERM=xterm DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends unzip wget && \
-    wget -qO /tmp/traccar.zip https://traccarinstallers.blob.core.windows.net/traccar/traccar-linux-64-linux-64.zip && \
+# Download and extract Traccar files
+RUN wget -qO /tmp/traccar.zip https://traccarinstallers.blob.core.windows.net/traccar/traccar-linux-64-linux-64.zip && \
     unzip -qo /tmp/traccar.zip -d /opt/traccar && \
-    apt-get autoremove --yes unzip wget && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/*
+    rm /tmp/traccar.zip
 
-COPY target/tracker-server.jar /opt/traccar/tracker-server.jar
+# Copy the build configuration files
+COPY build.gradle .
+COPY settings.gradle .
+COPY gradlew .
+
+# Copy the source code files
+COPY src ./src
+
+# Build the JAR file
+RUN chmod +x ./gradlew
+RUN ./gradlew assemble
 
 ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
 
-CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]
+CMD ["-jar", "build/libs/tracker-server.jar", "conf/traccar.xml"]
+
 
 
 
