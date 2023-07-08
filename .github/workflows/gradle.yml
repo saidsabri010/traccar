@@ -41,7 +41,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          file: Dockerfile.${{ matrix.os }}
+          file: Dockerfile.ubuntu
           tags: tekka.azurecr.io/traccar:v5
           platforms: linux
           push: true
