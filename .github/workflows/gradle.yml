@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build Java
-    runs-on: windows
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -23,7 +23,7 @@ jobs:
   docker-build:
     name: Build Docker image
     needs: build
-    runs-on: windows
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -46,7 +46,7 @@ jobs:
   deploy:
     name: Deploy to Azure VM
     needs: docker-build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     env:
       AZURE_VM_IP: 13.69.28.186
