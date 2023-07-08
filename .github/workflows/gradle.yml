@@ -39,8 +39,12 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       - name: Build and push
-        run: |
-           docker buildx build --platform windows/amd64 -t tekka.azurecr.io/traccar:v5 -f Dockerfile.windows --push .
+        uses: docker/build-push-action@v4
+        with:
+          file: Dockerfile.${{ matrix.os }}
+          tags: tekka.azurecr.io/traccar:v5
+          platforms: linux
+          push: true
         
 
   deploy:
