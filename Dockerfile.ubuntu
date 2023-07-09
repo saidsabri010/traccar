@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the Traccar server JAR file to the container
-COPY target/traccar-server.jar .
+COPY traccar-server.jar .
 
 # Expose the default Traccar port
 EXPOSE 8082
