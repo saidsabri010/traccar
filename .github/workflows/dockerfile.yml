@@ -18,7 +18,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: tekka.azurecr.io/traccar:latest
+          tags: tekki.azurecr.io/traccar:latest
           file: Dockerfile.ubuntu
           build-args: |
             TRACCAR_DATABASE=mysql
@@ -27,6 +27,6 @@ jobs:
       - name: Login to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-          login-server: tekka.azurecr.io
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          login-server: tekki.azurecr.io
+          username: ${{ secrets.ACR_USERNAME_TEKKI }}
+          password: ${{ secrets.ACR_PASSWORD_TEKKI }}
