@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.${{ matrix.os }}
-          tags: tekka.azurecr.io/traccar:v6
+          tags: tekka.azurecr.io/traccar:v7
           platforms: linux
           push: true
       - name: Deploy to Azure VM
@@ -51,7 +51,7 @@ jobs:
             docker stop tekka || true
             docker rm tekka || true
             docker pull tekka.azurecr.io/traccar:v1
-            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v6'
+            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v7'
            
   build-installer:
 
