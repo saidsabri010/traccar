@@ -1,18 +1,15 @@
-FROM adoptopenjdk:11-jre-hotspot-focal
+# Base image
+FROM openjdk:11-jre-slim
 
-ENV TRACCAR_VERSION 5.8
+# Set the working directory
+WORKDIR /app
 
-WORKDIR /opt/traccar
+# Copy the Traccar server JAR file to the container
+COPY traccar-server.jar .
 
-RUN set -ex && \
-    apt-get update &&\
-    TERM=xterm DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends unzip wget && \
-    wget -qO /tmp/traccar.zip https://github.com/saidsabri010/traccar/releases/download/v$TRACCAR_VERSION/traccar-other-$TRACCAR_VERSION.zip && \
-    unzip -qo /tmp/traccar.zip -d /opt/traccar && \
-    apt-get autoremove --yes unzip wget && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/*
+# Expose the default Traccar port
+EXPOSE 8082
 
-ENTRYPOINT ["java", "-Xms1g", "-Xmx1g", "-Djava.net.preferIPv4Stack=true"]
+# Run the Traccar server
+CMD ["java", "-jar", "traccar-server.jar"]
 
-CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]
