@@ -19,3 +19,29 @@ jobs:
         java-version: 11
         cache: gradle
     - run: ./gradlew build --no-daemon --warning-mode=fail
+    
+  build-and-push:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: tekki.azurecr.io/traccar:latest
+          file: Dockerfile.ubuntu
+          build-args: |
+            TRACCAR_DATABASE=mysql
+            TRACCAR_WEB_PORT=8082
+
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: tekki.azurecr.io
+          username: ${{ secrets.ACR_USERNAME_TEKKI }}
+          password: ${{ secrets.ACR_PASSWORD_TEKKI }}
