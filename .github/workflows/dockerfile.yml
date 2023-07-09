@@ -19,6 +19,7 @@ jobs:
           context: .
           push: true
           tags: tekka.azurecr.io/traccar:latest
+          file: Dockerfile.ubuntu
           build-args: |
             TRACCAR_DATABASE=mysql
             TRACCAR_WEB_PORT=8082
