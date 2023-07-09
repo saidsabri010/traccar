@@ -18,7 +18,7 @@ jobs:
         distribution: zulu
         java-version: 11
         cache: gradle
-    - run: ./gradlew assemble --no-daemon --warning-mode=fail
+    - run: ./gradlew build --no-daemon --warning-mode=fail
     
   build-and-push:
     needs: build
