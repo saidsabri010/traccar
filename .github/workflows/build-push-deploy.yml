@@ -51,7 +51,7 @@ jobs:
             docker stop tekka || true
             docker rm tekka || true
             docker pull tekka.azurecr.io/traccar:v1
-            docker run -d --name tekka -p 8082:8082 tekka.azurecr.io/traccar:v7'
+            docker run -d --name tekka -p 8083:8083 tekka.azurecr.io/traccar:v7'
            
   build-installer:
 
